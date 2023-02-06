@@ -1,4 +1,3 @@
-first readme, you can use markdown to make this pretty :)
-dont touch the white tiles
+# SEM_Demo
 
-![workflow](https://github.com/<UserName>/<RepositoryName>/actions/workflows/main.yml/badge.svg)
+Master Build  ![workflow](https://github.com/Kevin-Sim/sem_2022_labs/actions/workflows/main.yml/badge.svg)
