@@ -195,7 +195,7 @@ public class App {
 
             String strSelect =
                     "SELECT employees.emp_no, first_name, last_name, titles.title as 'title', salaries.salary as 'salary' "
-                            + "FROM employees, salaries, titles"
+                            + "FROM employees, salaries, titles "
                             + "WHERE employees.emp_no = " + ID + " " +
                             "AND employees.emp_no = salaries.emp_no AND employees.emp_no = titles.emp_no";
             // Execute SQL statement
@@ -215,9 +215,9 @@ public class App {
                 emp.last_name = rset.getString("last_name");
                 emp.title = rset.getString("title");
                 emp.salary = rset.getInt("salary");
-                System.out.println(deptName + managerID);
+
                 emp.dept = getDepartment(deptName);
-                emp.manager = getEmployee(managerID);
+//                emp.manager = getEmployeeManagerID(managerID);
 
                 return emp;
             } else
@@ -237,8 +237,9 @@ public class App {
                             + emp.last_name + "\n"
                             + emp.title + "\n"
                             + "Salary:" + emp.salary + "\n"
-                            + emp.dept.dept_name + "\n"
-                            + "Manager: " + emp.manager.first_name +" "+emp.manager.last_name + "\n");
+//                            + emp.dept.dept_name + "\n"
+//                            + "Manager: " + emp.manager.first_name +" "+emp.manager.last_name + "\n"
+            );
         }
     }
 
@@ -313,10 +314,12 @@ public class App {
                 Department dept = new Department();
                 //store the emp_no int in a variable
                 int employeeID = rset.getInt("emp_no");
-                Employee manager = getEmployee(employeeID);
+                //have problem setting the manager without recursively calling
+                //getEmployee function like : getEmp -> getMan -> getEmp .....
+                Employee manager;
                 dept.dept_no = rset.getString("dept_no");
                 dept.dept_name =  rset.getString("dept_name");
-                dept.manager = manager;
+//                dept.manager = manager;
 
                 return dept;
             } else
