@@ -64,13 +64,12 @@ public class App {
             // Create an SQL statement
             Statement stmt = con.createStatement();
             // Create string for SQL statement
+            //!!!GETTING DUPLICATE COLUMNS when I add the titles table
             String strSelect =
-                    "SELECT employees.emp_no, employees.first_name, employees.last_name, salaries.salary, titles.title, departments.dept_name, dept_manager.emp_no "
-                            + "FROM employees, salaries, titles, dept_emp, departments, dept_manager "
-                            + "WHERE employees.emp_no = salaries.emp_no AND salaries.to_date = '9999-01-01' " +
-                            "AND employees.emp_no = titles.emp_no " +
-                            "AND employees.emp_no = dept_emp.emp_no AND dept_emp.dept_no = departments.dept_no " +
-                            "AND departments.dept_no = dept_manager.dept_no "
+                    "SELECT employees.emp_no, employees.first_name, employees.last_name, salaries.salary, titles.title "
+                            + "FROM employees, salaries, titles "
+                            + "WHERE employees.emp_no = salaries.emp_no AND salaries.to_date = '9999-01-01' "
+                            + "AND employees.emp_no = titles.emp_no "
                             + "ORDER BY employees.emp_no ASC";
             // Execute SQL statement
             ResultSet rset = stmt.executeQuery(strSelect);
@@ -79,16 +78,17 @@ public class App {
             while (rset.next()) {
                 Employee emp = new Employee();
                 //variable to store emp_no for the manager
-                int managerID = rset.getInt("dept_manager.emp_no");
+//                int managerID = rset.getInt("dept_manager.emp_no");
                 emp.emp_no = rset.getInt("employees.emp_no");
                 emp.first_name = rset.getString("employees.first_name");
                 emp.last_name = rset.getString("employees.last_name");
                 emp.salary = rset.getInt("salaries.salary");
                 emp.title = rset.getString("titles.title");
-                emp.manager = getEmployee(managerID);
-                emp.dept = getDepartment(rset.getString("departments.dept_name"));
+//                emp.manager = getEmployee(managerID);
+//                emp.dept = getDepartment(rset.getString("departments.dept_name"));
                 employees.add(emp);
             }
+
             return employees;
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -403,22 +403,22 @@ public class App {
         // Get Employee
         Employee emp = a.getEmployee(255530);
         // Display results
-        a.displayEmployee(emp);
+//        a.displayEmployee(emp);
 
-//        ArrayList<Employee> salaries = a.getAllSalaries();
+        ArrayList<Employee> salaries = a.getAllSalaries();
         ArrayList<Employee> engineerSalaries = a.getSalariesByTitle("Engineer");
 
         //Test getting and displaying a department
         Department d = a.getDepartment("Sales");
-//        a.displayDepartment(d);
+        a.displayDepartment(d);
 
         //Test getting and displaying list of employee salaries by passing a department object
         ArrayList<Employee> salesSalaries = a.getSalariesByDepartment(d);
         //use the printSalaries function on this array
-//        a.printSalaries(salesSalaries);
+        a.printSalaries(salesSalaries);
 
         //test printing of employee info using refactored code
-//        a.displayEmployee(salaries.get(2));
+        a.displayEmployee(salesSalaries.get(20));
 
         // Disconnect from database
         a.disconnect();
