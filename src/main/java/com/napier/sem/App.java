@@ -158,7 +158,7 @@ public class App {
         }
     }
 
-    public ArrayList<Employee> getSalaryByTitle(String title) {
+    public ArrayList<Employee> getSalariesByTitle(String title) {
         try {
             // Create an SQL statement
             Statement stmt = con.createStatement();
@@ -201,6 +201,110 @@ public class App {
         }
     }
 
+    //add functions to get the department by name
+    //and get the salaries by department
+    public Department getDepartment(String dept_name){
+        try {
+            // Create an SQL statement
+            Statement stmt = con.createStatement();
+            // Create string for SQL statement
+            //need to select all the properties that a department object requires
+            //will need to use the getEmployee function
+            //join the dept_manager table
+            //join the employees table
+            //select dept_no, dept_name
+            //select the emp_no to be used in the getEmployee function
+
+            String strSelect =
+                    "SELECT departments.dept_no, departments.dept_name, employees.emp_no "
+                            + "FROM departments, dept_manager, employees "
+                            + "WHERE departments.dept_no = dept_manager.dept_no "
+                            + "AND dept_manager.emp_no = employees.emp_no "
+                            + "AND departments.dept_name = '"+dept_name+"' ";
+            // Execute SQL statement
+            ResultSet rset = stmt.executeQuery(strSelect);
+            // Return new employee if valid.
+            // Check one is returned
+            if (rset.next()) {
+                Department dept = new Department();
+                //store the emp_no int in a variable
+                int employeeID = rset.getInt("emp_no");
+                Employee manager = getEmployee(employeeID);
+                dept.dept_no = rset.getString("dept_no");
+                dept.dept_name =  rset.getString("dept_name");
+                dept.manager = manager;
+
+                return dept;
+            } else
+                return null;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            System.out.println("Failed to get department details");
+            return null;
+        }
+    }
+
+    public void displayDepartment(Department dept){
+        if (dept != null) {
+            System.out.println(
+                            "Name: " + dept.dept_name + "\n"
+                            +"ID: " + dept.dept_no + "\n"
+                            + "Manager: \n"
+            );
+            //call the displayEmployee function to see the manager information
+            displayEmployee(dept.manager);
+        }
+    }
+
+    public ArrayList<Employee> getSalariesByDepartment(Department dept){
+        //need to extract the department id from the dept object
+        //use the id to select the matching employees
+        //need to merge the departments, dept_emp and employee tables
+        //it should update an arraylist of type Employee
+        try {
+            // Create an SQL statement
+            Statement stmt = con.createStatement();
+            // Create string for SQL statement
+
+            String strSelect =
+                    "SELECT employees.emp_no, employees.first_name, employees.last_name, salaries.salary " +
+                            "FROM employees, salaries, dept_emp, departments " +
+                            "WHERE employees.emp_no = salaries.emp_no " +
+                            "AND employees.emp_no = dept_emp.emp_no " +
+                            "AND dept_emp.dept_no = departments.dept_no " +
+                            "AND salaries.to_date = '9999-01-01' " +
+                            "AND departments.dept_no = '" + dept.dept_no + "' "+
+                            "ORDER BY employees.emp_no ASC";
+
+            // Execute SQL statement
+            ResultSet rset = stmt.executeQuery(strSelect);
+            // Return new employee if valid.
+            // Check one is returned
+
+            //array to store the employee information
+            ArrayList<Employee> employees = new ArrayList<Employee>();
+            while (rset.next()) {
+
+                Employee emp = new Employee();
+                emp.emp_no = rset.getInt("emp_no");
+                emp.first_name = rset.getString("first_name");
+                emp.last_name = rset.getString("last_name");
+//                emp.title = rset.getString("title");
+                emp.salary = rset.getInt("salary");
+
+                //add the employee object to the array
+                employees.add(emp);
+            }
+            return employees;
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            System.out.println("Failed to get employee details");
+            return null;
+        }
+
+    }
+
 
     public static void main(String[] args) {
         // Create new Application
@@ -215,8 +319,16 @@ public class App {
 //        a.displayEmployee(emp);
 
         ArrayList<Employee> salaries = a.getAllSalaries();
-        ArrayList<Employee> engineerSalaries = a.getSalaryByTitle("Engineer");
-        a.printSalaries(engineerSalaries);
+        ArrayList<Employee> engineerSalaries = a.getSalariesByTitle("Engineer");
+
+        //Test getting and displaying a department
+        Department d = a.getDepartment("Sales");
+//        a.displayDepartment(d);
+
+        //Test getting and displaying list of employee salaries by passing a department object
+        ArrayList<Employee> salesSalaries = a.getSalariesByDepartment(d);
+        //use the printSalaries function on this array
+        a.printSalaries(salesSalaries);
 
         // Disconnect from database
         a.disconnect();
