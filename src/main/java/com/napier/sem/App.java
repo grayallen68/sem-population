@@ -112,11 +112,54 @@ public class App
         }
     }
 
+    public Country getCountryByName(String name){
+        try
+        {
+            // Create an SQL statement
+            Statement stmt = con.createStatement();
+            // Create string for SQL statement
+
+//            String strSelect =
+//                    "SELECT emp_no, first_name, last_name "
+//                            + "FROM employees "
+//                            + "WHERE emp_no = " + ID;
+
+            String strSelect =
+                    "SELECT * FROM country WHERE country.name = " + name + " ";
+            // Execute SQL statement
+            ResultSet rset = stmt.executeQuery(strSelect);
+            // Return new employee if valid.
+            // Check one is returned
+            if (rset.next())
+            {
+
+                Country country = new Country();
+                country.name = rset.getString("country.name");
+                country.continent = rset.getString("country.continent");
+                country.population = rset.getInt("country.population");
+
+                return country;
+            }
+            else
+                return null;
+        }
+        catch (Exception e)
+        {
+            System.out.println(e.getMessage());
+            System.out.println("Failed to get employee details");
+            return null;
+        }
+    }
+
     public void displayCountry(Country country)
     {
         if (country != null)
         {
-            System.out.println("");
+            System.out.println(
+                    "name: " + country.name + "/n"
+                    + "continent: " + country.continent + "/n"
+                    + "population: " + country.population
+            );
         }
     }
 
@@ -129,12 +172,12 @@ public class App
         // Connect to database
         a.connect();
 
-        // Get Employee
-//        Employee emp = a.getEmployee(255530);
-        // Display results
-//        a.displayEmployee(emp);
 
-        a.printCountries();
+        //Test getting country by name
+        Country country = a.getCountryByName("Aruba");
+        //Test displaying contents of country object
+        a.displayCountry(country);
+
 
         // Disconnect from database
         a.disconnect();
