@@ -125,7 +125,7 @@ public class App
 //                            + "WHERE emp_no = " + ID;
 
             String strSelect =
-                    "SELECT * FROM country WHERE country.name = " + name + " ";
+                    "SELECT * FROM country WHERE country.name = '" + name + "' ";
             // Execute SQL statement
             ResultSet rset = stmt.executeQuery(strSelect);
             // Return new employee if valid.
@@ -156,8 +156,8 @@ public class App
         if (country != null)
         {
             System.out.println(
-                    "name: " + country.name + "/n"
-                    + "continent: " + country.continent + "/n"
+                    "name: " + country.name + "\n"
+                    + "continent: " + country.continent + "\n"
                     + "population: " + country.population
             );
         }
