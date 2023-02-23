@@ -1,10 +1,11 @@
-# USE CASE: 4 Produce a report that displays populations of different countries given a criteria
+# USE CASE: 1 Produce a report that displays countries given a criteria
 
 ## CHARACTERISTIC INFORMATION
 
 ### Goal in Context
 
-As a Data Analyst I want to produce a Population report so that I can analyse and present the data to the Government Department manager in a user friendly way.
+As a *Data Analyst* I want *to produce a Country report* so that *I can analyse and present the data to the Government Department manager in a user friendly way.*
+
 ### Scope
 
 Population Department of the government
@@ -15,7 +16,7 @@ Primary task.
 
 ### Preconditions
 
-We have a database with population information of the countries of the world.
+We have a database with data on all the countries of the world
 
 ### Success End Condition
 
@@ -31,12 +32,12 @@ Data Analyst
 
 ### Trigger
 
-A request for population information is sent by the department manager
+A request for country information is sent by the department manager
 
 ## MAIN SUCCESS SCENARIO
 
-1. The department manager sends a request for population information
-2. Data Analysts accesses population information from the database
+1. The department manager sends a request for country information
+2. Data Analysts accesses country information from the database
 3. Data Analyst produces a table based on the retrieved information
 4. Data Analyst sends report to Department Manager successfully
 
