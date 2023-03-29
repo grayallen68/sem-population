@@ -134,9 +134,13 @@ public class App
             {
 
                 Country country = new Country();
-                country.name = rset.getString("country.name");
-                country.continent = rset.getString("country.continent");
-                country.population = rset.getInt("country.population");
+                String countryName = rset.getString("country.name");
+                String continent = rset.getString("country.continent");
+                int population = rset.getInt("country.population");
+
+                country.setName(countryName);
+                country.setContinent(continent);
+                country.setPopulation(population);
 
                 return country;
             }
@@ -156,11 +160,41 @@ public class App
         if (country != null)
         {
             System.out.println(
-                    "name: " + country.name + "\n"
-                    + "continent: " + country.continent + "\n"
-                    + "population: " + country.population
+                    "name: " + country.getName() + "\n"
+            //need to call get continent by id function here
+                    + "continent: " + country.getContinent() + "\n"
+                    + "population: " + country.getPopulation()
             );
         }
+    }
+
+    //POPULATION INFORMATION REQUESTS
+    public int getWorldPopulation(){
+        int population;
+        //get population of all countries in the database
+        //return the sum of all of them
+        try{
+            Statement stmt = con.createStatement();
+
+            String strSelect =
+                    "SELECT SUM(population) FROM country";
+            // Execute SQL statement
+            ResultSet rset = stmt.executeQuery(strSelect);
+            if (rset.next()) {
+                population = rset.getInt("population");
+                return population;
+            }else{
+                return 0;
+            }
+
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+            System.out.println("Failed to get employee details");
+            return 0;
+        }
+
+
+
     }
 
 
@@ -176,7 +210,8 @@ public class App
         //Test getting country by name
         Country country = a.getCountryByName("Aruba");
         //Test displaying contents of country object
-        a.displayCountry(country);
+        int p = a.getWorldPopulation();
+        System.out.println("World Population" + p);
 
 
         // Disconnect from database
