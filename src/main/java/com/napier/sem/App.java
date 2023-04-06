@@ -1,6 +1,7 @@
 package com.napier.sem;
 
 import java.sql.*;
+import java.util.ArrayList;
 
 public class App
 {
@@ -140,6 +141,53 @@ public class App
             return null;
         }
     }
+    public Country getCountryByCode(String countryCd){
+        try
+        {
+            // Create an SQL statement
+            Statement stmt = con.createStatement();
+            // Create string for SQL statement
+
+//            String strSelect =
+//                    "SELECT emp_no, first_name, last_name "
+//                            + "FROM employees "
+//                            + "WHERE emp_no = " + ID;
+
+            String strSelect =
+                    "SELECT * FROM country WHERE country.code = '" + countryCd + "' ";
+            // Execute SQL statement
+            ResultSet rset = stmt.executeQuery(strSelect);
+            // Check one is returned
+            if (rset.next())
+            {
+
+                Country country = new Country();
+                String countryCode = rset.getString("country.code");
+                String countryName = rset.getString("country.name");
+                String continent = rset.getString("country.continent");
+                String region = rset.getString("country.region");
+                int population = rset.getInt("country.population");
+                int capitalID = rset.getInt("country.capital");
+
+                country.setCode(countryCode);
+                country.setName(countryName);
+                country.setContinent(continent);
+                country.setRegion(region);
+                country.setPopulation(population);
+                country.setCapital(capitalID);
+
+                return country;
+            }
+            else
+                return null;
+        }
+        catch (Exception e)
+        {
+            System.out.println(e.getMessage());
+            System.out.println("Failed to get population details");
+            return null;
+        }
+    }
 
     public City getCityByID(int cityID){
         try
@@ -219,22 +267,32 @@ public class App
         }
     }
 
-    public void displayCountry(Country country)
+    public void printCountryRecord(Country country)
     {
         if (country != null)
         {
-            System.out.println(
-                    "code: " + country.getCode() + "\n" +
-                    "name: " + country.getName() + "\n" +
-            //need to call get city by id function here
-                    "continent: " + country.getContinent() + "\n" +
-                    "region: " + country.getRegion() + "\n" +
-                    "population: " + country.getPopulation() + "\n" +
-                    "capital: " + country.getCapital() + "\n"
+            //get city form id and extract the name
+
+            City city = getCityByID(country.getCapital());
+            //some countries don't have a capital code in database
+            String capitalName = "n/a";
+            if(city != null){
+                capitalName = city.getName();
+            }
+
+            String countryRow = String.format(
+                    "%-10s %-50s %-20s %-35s %-12s %-8s",
+                    country.getCode(),
+                    country.getName(),
+                    country.getContinent(),
+                    country.getRegion(),
+                    country.getPopulation(),
+                    capitalName
             );
+            System.out.println(countryRow);
         }
     }
-    public void displayCity(City city)
+    public void printCityRecord(City city)
     {
         if (city != null)
         {
@@ -248,6 +306,240 @@ public class App
             );
         }
     }
+
+    //COUNTRY REPORTS
+
+    public ArrayList<Country> getAllCountries(){
+        //return a list of country objects
+
+        try{
+            Statement stmt = con.createStatement();
+
+            //to keep the code simple, we will only request the country code here
+            //the use the getCountryByCode function to create the object
+            String strSelect =
+                    "SELECT code FROM country ORDER BY country.population DESC ";
+            // Execute SQL statement
+            ResultSet rset = stmt.executeQuery(strSelect);
+
+            //create an array of country objects to hold all the countries
+            ArrayList<Country> countries = new ArrayList<Country>();
+
+            while (rset.next()) {
+                Country country;
+                String code = rset.getString("country.code");
+                //use the code to get a country object
+                country = getCountryByCode(code);
+                countries.add(country);
+            }
+
+            return countries;
+
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+            System.out.println("Failed to get population details");
+            return null;
+        }
+    }
+
+    public ArrayList<Country> getAllCountriesInContinent(String continent){
+        //return a list of country objects
+        //check if the country's continent name matches the passed in text
+        try{
+            Statement stmt = con.createStatement();
+
+            //get code of the countries the match the requested continent
+            String strSelect =
+                    "SELECT code FROM country WHERE country.continent =  '" + continent + "' " +
+                            "ORDER BY country.population DESC ";
+            // Execute SQL statement
+            ResultSet rset = stmt.executeQuery(strSelect);
+
+            //create an array of country objects to hold all the countries
+            ArrayList<Country> countries = new ArrayList<Country>();
+
+            while (rset.next()) {
+                Country country;
+                String code = rset.getString("country.code");
+                //use the code to get a country object
+                country = getCountryByCode(code);
+                countries.add(country);
+            }
+
+            return countries;
+
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+            System.out.println("Failed to get population details");
+            return null;
+        }
+    }
+
+    public ArrayList<Country> getAllCountriesInRegion(String region){
+        //return a list of country objects
+        //check if the country's continent name matches the passed in text
+        try{
+            Statement stmt = con.createStatement();
+
+            //get code of the countries the match the requested continent
+            String strSelect =
+                    "SELECT code FROM country WHERE country.region =  '" + region + "' " +
+                            "ORDER BY country.population DESC ";
+            // Execute SQL statement
+            ResultSet rset = stmt.executeQuery(strSelect);
+
+            //create an array of country objects to hold all the countries
+            ArrayList<Country> countries = new ArrayList<Country>();
+
+            while (rset.next()) {
+                Country country;
+                String code = rset.getString("country.code");
+                //use the code to get a country object
+                country = getCountryByCode(code);
+                countries.add(country);
+            }
+
+            return countries;
+
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+            System.out.println("Failed to get population details");
+            return null;
+        }
+    }
+
+    public ArrayList<Country> getCountries(int count){
+        //limit the results of the query based on the count
+        if(count < 0)
+            count = 0;
+        try{
+            Statement stmt = con.createStatement();
+
+            //get code of the countries the match the requested continent
+            String strSelect =
+                    "SELECT code FROM country " +
+                    "ORDER BY country.population DESC " +
+                    "LIMIT " + count;
+            // Execute SQL statement
+            ResultSet rset = stmt.executeQuery(strSelect);
+
+            //create an array of country objects to hold all the countries
+            ArrayList<Country> countries = new ArrayList<Country>();
+
+            while (rset.next()) {
+                Country country;
+                String code = rset.getString("country.code");
+                //use the code to get a country object
+                country = getCountryByCode(code);
+                countries.add(country);
+            }
+
+            return countries;
+
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+            System.out.println("Failed to get population details");
+            return null;
+        }
+    }
+
+    public ArrayList<Country> getCountriesInContinent(String continent,int count){
+        //limit the results of the query based on the count
+        if(count < 0)
+            count = 0;
+        try{
+            Statement stmt = con.createStatement();
+
+            //get code of the countries the match the requested continent
+            String strSelect =
+                    "SELECT code FROM country " +
+                    "WHERE country.continent = '"+ continent +"' " +
+                    "ORDER BY country.population DESC " +
+                    "LIMIT " + count;
+            // Execute SQL statement
+            ResultSet rset = stmt.executeQuery(strSelect);
+
+            //create an array of country objects to hold all the countries
+            ArrayList<Country> countries = new ArrayList<Country>();
+
+            while (rset.next()) {
+                Country country;
+                String code = rset.getString("country.code");
+                //use the code to get a country object
+                country = getCountryByCode(code);
+                countries.add(country);
+            }
+
+            return countries;
+
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+            System.out.println("Failed to get population details");
+            return null;
+        }
+    }
+
+    public ArrayList<Country> getCountriesInRegion(String region, int count){
+        //limit the results of the query based on the count
+        if(count < 0)
+            count = 0;
+        try{
+            Statement stmt = con.createStatement();
+
+            //get code of the countries that match the requested region
+            String strSelect =
+                    "SELECT code FROM country " +
+                            "WHERE country.region = '"+ region +"' " +
+                            "ORDER BY country.population DESC " +
+                            "LIMIT " + count;
+            // Execute SQL statement
+            ResultSet rset = stmt.executeQuery(strSelect);
+
+            //create an array of country objects to hold all the countries
+            ArrayList<Country> countries = new ArrayList<Country>();
+
+            while (rset.next()) {
+                Country country;
+                String code = rset.getString("country.code");
+                //use the code to get a country object
+                country = getCountryByCode(code);
+                countries.add(country);
+            }
+
+            return countries;
+
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+            System.out.println("Failed to get population details");
+            return null;
+        }
+    }
+
+    public void printCountryReport(ArrayList<Country> countries){
+        //apply unit test to this function
+        //generates a report from the passed in country list
+        //print a line for each object in the array
+        //formats the results to look like a table
+        //call the printCountryRecord() function for each element in the arraylist
+        String header = String.format(
+                "%-10s %-50s %-20s %-35s %-12s %-8s",
+                "Code",
+                "Name",
+                "Continent",
+                "Region",
+                "Population",
+                "Capital"
+        );
+        System.out.println(header);
+        for (Country c : countries){
+            if (c == null)
+                continue;
+            printCountryRecord(c);
+        }
+
+
+    }
+
 
     //POPULATION INFORMATION REQUESTS
     public long getWorldPopulation(){
@@ -390,23 +682,8 @@ public class App
             a.connect(args[0], Integer.parseInt(args[1]));
         }
 
-        //Test getting country by name
-        Country country = a.getCountryByName("Aruba");
-        //Test displaying contents of country object
-        long p = a.getWorldPopulation();
-        System.out.println("World Population: " + p);
-
-        long c = a.getCountryPopulation("Belize");
-        System.out.println("Population: " + c);
-
-        Country tCountry = a.getCountryByName("Belize");
-        a.displayCountry(tCountry);
-
-        City tCity = a.getCityByID(tCountry.getCapital());
-        a.displayCity(tCity);
-
-        long cp = a.getCityPopulation("Belmopan");
-        System.out.println("City Population: " + cp);
+        ArrayList<Country> c = a.getCountriesInRegion("Eastern Asia",3);
+        a.printCountryReport(c);
         // Disconnect from database
         a.disconnect();
     }

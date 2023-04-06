@@ -50,4 +50,5 @@ public class City {
     public long getPopulation() {
         return population;
     }
+
 }

@@ -52,4 +52,5 @@ public class Country {
     public void setCapital(int capitalID) {
         this.capitalID = capitalID;
     }
+
 }
