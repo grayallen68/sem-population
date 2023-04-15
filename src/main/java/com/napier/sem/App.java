@@ -2,6 +2,7 @@ package com.napier.sem;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Comparator;
 
 public class App
 {
@@ -310,6 +311,30 @@ public class App
                     city.getName(),
                     countryName,
                     city.getDistrict(),
+                    city.getPopulation()
+            );
+
+            System.out.println(cityRow);
+        }
+    }
+
+    public void printCapitalCityRecord(City city)
+    {
+        if (city != null)
+        {
+            //get country by code and extract the name
+
+            Country country = getCountryByCode(city.getCountryCode());
+            //in case it didn't return a country name
+            String countryName = "n/a";
+            if(country != null){
+                countryName = country.getName();
+            }
+
+            String cityRow = String.format(
+                    "%-50s %-50s %-10s",
+                    city.getName(),
+                    countryName,
                     city.getPopulation()
             );
 
@@ -793,7 +818,6 @@ public class App
         return getCitiesInDistrict(district,100000);
     }
 
-
     public void printCityReport(ArrayList<City> cities){
         //print a formatted table based on the passed in array of city objects
         //apply unit test to this function
@@ -812,6 +836,122 @@ public class App
         }
     }
 
+    //CAPITAL CITY REPORTS
+    public ArrayList<City> getCapitalCities(int count){
+        if(count < 0){
+            count = 0;
+        }
+        //return a list of the cities that are capitals
+        ArrayList<City> cities = new ArrayList<City>();
+        //get all the countries and use their capitalID to select cities from the city table
+        ArrayList<Country> countries= getAllCountries();
+        //create a list of cities and sort based on city population
+        ArrayList<City> allCapitals = new ArrayList<City>();
+        for(int i = 0; i<countries.size(); i++){
+            int capID = countries.get(i).getCapital();
+            City cit = getCityByID(capID);
+            //if the city isn't null
+            if(cit != null){
+                allCapitals.add(cit);
+            }
+
+        }
+        allCapitals.sort(Comparator.comparing(city -> city.getPopulation(), Comparator.reverseOrder()));
+        for(int i = 0; i<count; i++){
+            if(i >= allCapitals.size()){
+                break;
+            }
+            //add to the cities list that will be returned
+            cities.add(allCapitals.get(i));
+        }
+        return cities;
+    }
+
+    public ArrayList<City> getCapitalCitiesInContinent(String continent, int count){
+        if(count < 0){
+            count = 0;
+        }
+        //return a list of the cities that are capitals
+        ArrayList<City> cities = new ArrayList<City>();
+        //get all the countries and use their capitalID to select cities from the city table
+        ArrayList<Country> countries= getAllCountries();
+        //create a list of cities and sort based on city population
+        ArrayList<City> allCapitals = new ArrayList<City>();
+        for(int i = 0; i<countries.size(); i++){
+            int capID = countries.get(i).getCapital();
+            City cit = getCityByID(capID);
+            //if the city isn't null
+            if(cit != null && countries.get(i).getContinent().equals(continent)){
+                allCapitals.add(cit);
+            }
+
+        }
+        allCapitals.sort(Comparator.comparing(city -> city.getPopulation(), Comparator.reverseOrder()));
+        for(int i = 0; i<count; i++){
+            if(i >= allCapitals.size()){
+                break;
+            }
+            //add to the cities list that will be returned
+            cities.add(allCapitals.get(i));
+        }
+        return cities;
+    }
+
+    public ArrayList<City> getCapitalCitiesInRegion(String region, int count){
+        if(count < 0){
+            count = 0;
+        }
+        //return a list of the cities that are capitals
+        ArrayList<City> cities = new ArrayList<City>();
+        //get all the countries and use their capitalID to select cities from the city table
+        ArrayList<Country> countries= getAllCountries();
+        //create a list of cities and sort based on city population
+        ArrayList<City> allCapitals = new ArrayList<City>();
+        for(int i = 0; i<countries.size(); i++){
+            int capID = countries.get(i).getCapital();
+            City cit = getCityByID(capID);
+            //if the city isn't null
+            if(cit != null && countries.get(i).getRegion().equals(region)){
+                allCapitals.add(cit);
+            }
+
+        }
+        allCapitals.sort(Comparator.comparing(city -> city.getPopulation(), Comparator.reverseOrder()));
+        for(int i = 0; i<count; i++){
+            if(i >= allCapitals.size()){
+                break;
+            }
+            //add to the cities list that will be returned
+            cities.add(allCapitals.get(i));
+        }
+        return cities;
+    }
+
+    public ArrayList<City> getAllCapitalCities(){
+        return getCapitalCities(100000);
+    }
+    public ArrayList<City> getAllCapitalCitiesInContinent(String continent){
+        return getCapitalCitiesInContinent(continent, 100000);
+    }
+    public ArrayList<City> getAllCapitalCitiesInRegion(String region){
+        return getCapitalCitiesInRegion(region, 100000);
+    }
+    public void printCapitalCityReport(ArrayList<City> cities){
+        //print a formatted table based on the passed in array of city objects
+        //apply unit test to this function
+        String header = String.format(
+                "%-50s %-50s %-10s",
+                "Name",
+                "Country",
+                "Population"
+        );
+        System.out.println(header);
+        for (City c : cities){
+            if (c == null)
+                continue;
+            printCapitalCityRecord(c);
+        }
+    }
 
     //POPULATION INFORMATION REQUESTS
     public long getWorldPopulation(){
@@ -957,9 +1097,9 @@ public class App
         ArrayList<Country> c = a.getCountriesInRegion("Eastern Asia",3);
         //a.printCountryReport(c);
 
-        ArrayList<City> cities = a.getCitiesInCountry("China", 10);
+        ArrayList<City> cities = a.getAllCapitalCitiesInRegion("Central America");
         City cit = a.getCityByName("Belmopan");
-        a.printCityReport(cities);
+        a.printCapitalCityReport(cities);
         // Disconnect from database
         a.disconnect();
     }
