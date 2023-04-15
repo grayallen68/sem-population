@@ -296,14 +296,24 @@ public class App
     {
         if (city != null)
         {
-            System.out.println(
-                    "ID: " + city.getID() + "\n" +
-                            "name: " + city.getName() + "\n" +
-                            //need to call get city by id function here
-                            "country code: " + city.getCountryCode() + "\n" +
-                            "district: " + city.getDistrict()+ "\n" +
-                            "population: " + city.getPopulation() + "\n"
+            //get country by code and extract the name
+
+            Country country = getCountryByCode(city.getCountryCode());
+            //in case it didn't return a country name
+            String countryName = "n/a";
+            if(country != null){
+                countryName = country.getName();
+            }
+
+            String cityRow = String.format(
+                    "%-50s %-50s %-50s %-10s",
+                    city.getName(),
+                    countryName,
+                    city.getDistrict(),
+                    city.getPopulation()
             );
+
+            System.out.println(cityRow);
         }
     }
 
@@ -540,6 +550,268 @@ public class App
 
     }
 
+    //CITY REPORTS
+    public ArrayList<City> getCities(int count){
+        //Max count of cities is 4079
+        //limit the results of the query based on the count
+        //select all records from the city table a sort them based on population
+        if(count < 0)
+            count = 0;
+        try{
+            Statement stmt = con.createStatement();
+
+            //get id of the cities and call the getCityById function
+            String strSelect =
+                    "SELECT id FROM city " +
+                            "ORDER BY city.population DESC " +
+                            "LIMIT " + count;
+            // Execute SQL statement
+            ResultSet rset = stmt.executeQuery(strSelect);
+
+            //create an array of country objects to hold all the countries
+            ArrayList<City> cities = new ArrayList<City>();
+
+            while (rset.next()) {
+                City city;
+                int id = rset.getInt("city.id");
+                //use the id to get city object
+                city = getCityByID(id);
+                cities.add(city);
+            }
+
+            return cities;
+
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+            System.out.println("Failed to get population details");
+            return null;
+        }
+    }
+    public ArrayList<City> getCitiesInContinent(String continent, int count){
+        //limit the results of the query based on the count
+        //select countries that match the countrycode of the object
+        //then filter the results based on the country's continent field
+
+        if(count < 0)
+            count = 0;
+        try{
+            Statement stmt = con.createStatement();
+
+            //get id of the cities and call the getCityById function
+            String strSelect =
+                    "SELECT id FROM city " +
+                            "ORDER BY city.population DESC ";
+            // Execute SQL statement
+            ResultSet rset = stmt.executeQuery(strSelect);
+
+            //create an array of country objects to hold all the countries
+            ArrayList<City> cities = new ArrayList<City>();
+
+            while (rset.next()) {
+                City city;
+                int id = rset.getInt("city.id");
+                //use the id to get city object
+                city = getCityByID(id);
+
+                //only add city if the related country matches the passed in continent
+                Country country = getCountryByCode(city.getCountryCode());
+
+                if(country.getContinent().equals(continent)){
+                    if(cities.size() < count) {
+                        cities.add(city);
+                    }
+                }
+
+            }
+
+            return cities;
+
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+            System.out.println("Failed to get population details");
+            return null;
+        }
+    }
+
+    public ArrayList<City> getCitiesInRegion(String region, int count){
+        //limit the results of the query based on the count
+        //select countries that match the countrycode of the object
+        //then filter the results based on the country's region field
+
+        if(count < 0)
+            count = 0;
+        try{
+            Statement stmt = con.createStatement();
+
+            //get id of the cities and call the getCityById function
+            String strSelect =
+                    "SELECT id FROM city " +
+                            "ORDER BY city.population DESC ";
+            // Execute SQL statement
+            ResultSet rset = stmt.executeQuery(strSelect);
+
+            //create an array of country objects to hold all the countries
+            ArrayList<City> cities = new ArrayList<City>();
+
+            while (rset.next()) {
+                City city;
+                int id = rset.getInt("city.id");
+                //use the id to get city object
+                city = getCityByID(id);
+
+                //only add city if the related country matches the passed in continent
+                Country country = getCountryByCode(city.getCountryCode());
+
+                if(country.getRegion().equals(region)){
+                    if(cities.size() < count) {
+                        cities.add(city);
+                    }
+                }
+
+            }
+
+            return cities;
+
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+            System.out.println("Failed to get population details");
+            return null;
+        }
+    }
+
+    public ArrayList<City> getCitiesInCountry(String countryName, int count){
+        //limit the results of the query based on the count
+        //select countries that match the countrycode of the object
+        //then filter the results based on the country's name field
+
+        if(count < 0)
+            count = 0;
+        try{
+            Statement stmt = con.createStatement();
+
+            //get id of the cities and call the getCityById function
+            String strSelect =
+                    "SELECT id FROM city " +
+                            "ORDER BY city.population DESC ";
+            // Execute SQL statement
+            ResultSet rset = stmt.executeQuery(strSelect);
+
+            //create an array of country objects to hold all the countries
+            ArrayList<City> cities = new ArrayList<City>();
+
+            while (rset.next()) {
+                City city;
+                int id = rset.getInt("city.id");
+                //use the id to get city object
+                city = getCityByID(id);
+
+                //only add city if the related country matches the passed in continent
+                Country country = getCountryByCode(city.getCountryCode());
+                if(country.getName().equals(countryName)){
+                    if(cities.size() < count) {
+                        cities.add(city);
+                    }
+                }
+
+            }
+
+            return cities;
+
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+            System.out.println("Failed to get population details");
+            return null;
+        }
+    }
+
+    public ArrayList<City> getCitiesInDistrict(String district, int count){
+        //limit the results of the query based on the count
+        //select countries that match the countrycode of the object
+        //then filter the results based on the city's district field
+
+        if(count < 0)
+            count = 0;
+        try{
+            Statement stmt = con.createStatement();
+
+            //get id of the cities and call the getCityById function
+            String strSelect =
+                    "SELECT id FROM city " +
+                            "ORDER BY city.population DESC ";
+            // Execute SQL statement
+            ResultSet rset = stmt.executeQuery(strSelect);
+
+            //create an array of country objects to hold all the countries
+            ArrayList<City> cities = new ArrayList<City>();
+
+            while (rset.next()) {
+                City city;
+                int id = rset.getInt("city.id");
+                //use the id to get city object
+                city = getCityByID(id);
+
+                //only add city if its district matches
+
+                if(city.getDistrict().equals(district)){
+                    if(cities.size() < count) {
+                        cities.add(city);
+                    }
+                }
+
+            }
+
+            return cities;
+
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+            System.out.println("Failed to get population details");
+            return null;
+        }
+    }
+
+    public ArrayList<City> getAllCities(){
+        //use the getCities Function but set the count to a high number to include all the cities
+        return getCities(100000);
+    }
+    public ArrayList<City> getAllCitiesInContinent(String continent){
+        //use the getCitiesInContinent Function but set the count to a high number to include all the cities
+        return getCitiesInContinent(continent,100000);
+    }
+
+    public ArrayList<City> getAllCitiesInRegion(String region){
+        //use the getCitiesInContinent Function but set the count to a high number to include all the cities
+        return getCitiesInRegion(region,100000);
+    }
+
+    public ArrayList<City> getAllCitiesInCountry(String countryName){
+        //use the getCitiesInContinent Function but set the count to a high number to include all the cities
+        return getCitiesInCountry(countryName,100000);
+    }
+
+    public ArrayList<City> getAllCitiesInDistrict(String district){
+        //use the getCitiesInContinent Function but set the count to a high number to include all the cities
+        return getCitiesInDistrict(district,100000);
+    }
+
+
+    public void printCityReport(ArrayList<City> cities){
+        //print a formatted table based on the passed in array of city objects
+        //apply unit test to this function
+        String header = String.format(
+                "%-50s %-50s %-50s %-10s",
+                "Name",
+                "Country",
+                "District",
+                "Population"
+        );
+        System.out.println(header);
+        for (City c : cities){
+            if (c == null)
+                continue;
+            printCityRecord(c);
+        }
+    }
+
 
     //POPULATION INFORMATION REQUESTS
     public long getWorldPopulation(){
@@ -683,7 +955,11 @@ public class App
         }
 
         ArrayList<Country> c = a.getCountriesInRegion("Eastern Asia",3);
-        a.printCountryReport(c);
+        //a.printCountryReport(c);
+
+        ArrayList<City> cities = a.getCitiesInCountry("China", 10);
+        City cit = a.getCityByName("Belmopan");
+        a.printCityReport(cities);
         // Disconnect from database
         a.disconnect();
     }
