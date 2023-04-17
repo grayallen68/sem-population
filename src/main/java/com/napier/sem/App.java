@@ -1,5 +1,7 @@
 package com.napier.sem;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -953,6 +955,185 @@ public class App
         }
     }
 
+    //POPULATION REPORTS
+    public void continentPopulationReport(String continent){
+        //query the database for countries in the requested continent
+        //for each country, get its population from the country database
+        //for all cities that match the country code, return a sum of their populations
+        //divide the city sum by the country population to get a percentage
+        long countriesSum = 0;
+        long citiesSum = 0;
+        ArrayList<Country> countries = getAllCountriesInContinent(continent);
+        ArrayList<City> cities = getAllCitiesInContinent(continent);
+
+        //get sum of population of countries in continent
+        for(int i=0; i<countries.size(); i++){
+            //increase the countriesSum
+            countriesSum += countries.get(i).getPopulation();
+        }
+
+        for(int i=0; i<cities.size(); i++){
+            //increase the countriesSum
+            citiesSum += cities.get(i).getPopulation();
+        }
+
+        double percentageFactor = (double)citiesSum/(double)countriesSum;
+        if(countriesSum < 1){
+            System.out.println("Not Found");
+            return;
+        }
+
+        System.out.println(citiesSum + " " + countriesSum + " " + percentageFactor);
+        //Establishing record values
+        String name = continent;
+        long population = countriesSum;
+        Double cityPercentage = BigDecimal.valueOf(percentageFactor*100.0)
+                .setScale(2, RoundingMode.HALF_UP)
+                .doubleValue();
+        Double notCityPercentage = BigDecimal.valueOf((1.0 - percentageFactor)*100.0)
+                .setScale(2, RoundingMode.HALF_UP)
+                .doubleValue();
+
+        String cityPopulation = citiesSum + " (" + cityPercentage +"%) ";
+        String notCityPopulation = (countriesSum - citiesSum) + " (" + notCityPercentage +"%) ";
+
+        String header = String.format(
+                "%-20s %-30s %-30s %-30s",
+                "Continent",
+                "Total Population",
+                "Living in Cities",
+                "Not in Cities"
+        );
+        System.out.println(header);
+        String report = String.format(
+                "%-20s %-30s %-30s %-30s",
+                name,
+                population,
+                cityPopulation,
+                notCityPopulation
+        );
+        System.out.println(report);
+
+    }
+
+    public void regionPopulationReport(String region){
+        //query the database for countries in the requested region
+        //for each country, get its population from the country database
+        //for all cities that match the country code, return a sum of their populations
+        //divide the city sum by the country population to get a percentage
+        long countriesSum = 0;
+        long citiesSum = 0;
+        ArrayList<Country> countries = getAllCountriesInRegion(region);
+        ArrayList<City> cities = getAllCitiesInRegion(region);
+
+        //get sum of population of countries in continent
+        for(int i=0; i<countries.size(); i++){
+            //increase the countriesSum
+            countriesSum += countries.get(i).getPopulation();
+        }
+
+        for(int i=0; i<cities.size(); i++){
+            //increase the countriesSum
+            citiesSum += cities.get(i).getPopulation();
+        }
+
+        double percentageFactor = (double)citiesSum/(double)countriesSum;
+        if(countriesSum < 1){
+            System.out.println("Not Found");
+            return;
+        }
+
+        System.out.println(citiesSum + " " + countriesSum + " " + percentageFactor);
+        //Establishing record values
+        String name = region;
+        long population = countriesSum;
+        Double cityPercentage = BigDecimal.valueOf(percentageFactor*100.0)
+                .setScale(2, RoundingMode.HALF_UP)
+                .doubleValue();
+        Double notCityPercentage = BigDecimal.valueOf((1.0 - percentageFactor)*100.0)
+                .setScale(2, RoundingMode.HALF_UP)
+                .doubleValue();
+
+        String cityPopulation = citiesSum + " (" + cityPercentage +"%) ";
+        String notCityPopulation = (countriesSum - citiesSum) + " (" + notCityPercentage +"%) ";
+
+        String header = String.format(
+                "%-20s %-30s %-30s %-30s",
+                "Region",
+                "Total Population",
+                "Living in Cities",
+                "Not in Cities"
+        );
+        System.out.println(header);
+        String report = String.format(
+                "%-20s %-30s %-30s %-30s",
+                name,
+                population,
+                cityPopulation,
+                notCityPopulation
+        );
+        System.out.println(report);
+
+    }
+
+    public void countryPopulationReport(String countryName){
+        //query the database for countries in the requested region
+        //get population from the country database
+        //for all cities that match the country code, return a sum of their populations
+        //divide the city sum by the country population to get a percentage
+        long countriesSum = 0;
+        long citiesSum = 0;
+        Country country = getCountryByName(countryName);
+        ArrayList<City> cities = getAllCitiesInCountry(countryName);
+
+        if(country == null){
+            System.out.println("Not Found");
+            return;
+        }
+        //get sum of population of countries in continent
+        countriesSum = country.getPopulation();
+
+        for(int i=0; i<cities.size(); i++){
+            //increase the countriesSum
+            citiesSum += cities.get(i).getPopulation();
+        }
+
+        double percentageFactor = (double)citiesSum/(double)countriesSum;
+
+
+        System.out.println(citiesSum + " " + countriesSum + " " + percentageFactor);
+        //Establishing record values
+        String name = countryName;
+        long population = countriesSum;
+        Double cityPercentage = BigDecimal.valueOf(percentageFactor*100.0)
+                .setScale(2, RoundingMode.HALF_UP)
+                .doubleValue();
+        Double notCityPercentage = BigDecimal.valueOf((1.0 - percentageFactor)*100.0)
+                .setScale(2, RoundingMode.HALF_UP)
+                .doubleValue();
+
+        String cityPopulation = citiesSum + " (" + cityPercentage +"%) ";
+        String notCityPopulation = (countriesSum - citiesSum) + " (" + notCityPercentage +"%) ";
+
+        String header = String.format(
+                "%-20s %-30s %-30s %-30s",
+                "Country",
+                "Total Population",
+                "Living in Cities",
+                "Not in Cities"
+        );
+        System.out.println(header);
+        String report = String.format(
+                "%-20s %-30s %-30s %-30s",
+                name,
+                population,
+                cityPopulation,
+                notCityPopulation
+        );
+        System.out.println(report);
+
+    }
+
     //POPULATION INFORMATION REQUESTS
     public long getWorldPopulation(){
         long population;
@@ -1099,7 +1280,10 @@ public class App
 
         ArrayList<City> cities = a.getAllCapitalCitiesInRegion("Central America");
         City cit = a.getCityByName("Belmopan");
-        a.printCapitalCityReport(cities);
+//        a.printCapitalCityReport(cities);
+
+        a.countryPopulationReport("Belize");
+
         // Disconnect from database
         a.disconnect();
     }
