@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
 
 public class App
@@ -1100,15 +1101,13 @@ public class App
 
         double percentageFactor = (double)citiesSum/(double)countriesSum;
 
-
-        System.out.println(citiesSum + " " + countriesSum + " " + percentageFactor);
         //Establishing record values
         String name = countryName;
         long population = countriesSum;
-        Double cityPercentage = BigDecimal.valueOf(percentageFactor*100.0)
+        double cityPercentage = BigDecimal.valueOf(percentageFactor*100.0)
                 .setScale(2, RoundingMode.HALF_UP)
                 .doubleValue();
-        Double notCityPercentage = BigDecimal.valueOf((1.0 - percentageFactor)*100.0)
+        double notCityPercentage = BigDecimal.valueOf((1.0 - percentageFactor)*100.0)
                 .setScale(2, RoundingMode.HALF_UP)
                 .doubleValue();
 
@@ -1261,7 +1260,72 @@ public class App
         return city.getPopulation();
     }
 
+    //LANGUAGE REPORT
+    public long getLanguagePopulation(String language){
+        //this function needs to query the countrylanguage table
+        //for the specified language, get all related country codes
+        //sum the population of the retrieved country codes to use in the report table
+        try
+        {
+            // Create an SQL statement
+            Statement stmt = con.createStatement();
+            // Create string for SQL statement
 
+            String strSelect =
+                    "SELECT CountryCode FROM countrylanguage " +
+                            " WHERE countrylanguage.language = '" + language +"' ";
+            // Execute SQL statement
+            ResultSet rset = stmt.executeQuery(strSelect);
+            long populationCount = 0;
+            // Check one is returned
+            while(rset.next()){
+                String countryCode = rset.getString("countrylanguage.CountryCode");
+                Country country = getCountryByCode(countryCode);
+                if(country != null){
+                    populationCount += country.getPopulation();
+                }
+            }
+            return populationCount;
+        }
+        catch (Exception e)
+        {
+            System.out.println(e.getMessage());
+            System.out.println("Failed to get population details");
+            return 0;
+        }
+    }
+    public void generateLanguageReport(){
+        //specified languages: Chinese, English, Hindi, Spanish, Arabic
+        ArrayList<String> languages = new ArrayList<String>(Arrays.asList(
+                "Chinese","English", "Hindi", "Spanish", "Arabic"
+        ));
+        //get the population count for each of the specified languages
+        String header = String.format(
+                "%-20s %-20s %-20s",
+                "Language",
+                "Population",
+                "Percentage of World Population"
+        );
+        System.out.println(header);
+        for(int i = 0; i<languages.size(); i++){
+            String lang = languages.get(i);
+            long population = getLanguagePopulation(lang);
+            long worldPopulation = getWorldPopulation();
+            double percentage = ((double)population/(double)worldPopulation)*100.0;
+            percentage = BigDecimal.valueOf(percentage)
+                    .setScale(2, RoundingMode.HALF_UP)
+                    .doubleValue();
+
+            //print row
+            String row = String.format(
+                    "%-20s %-20s %-20s",
+                    lang,
+                    population,
+                    percentage + "%"
+            );
+            System.out.println(row);
+        }
+    }
 
     public static void main(String[] args)
     {
@@ -1283,6 +1347,8 @@ public class App
 //        a.printCapitalCityReport(cities);
 
         a.countryPopulationReport("Belize");
+
+        a.generateLanguageReport();
 
         // Disconnect from database
         a.disconnect();
