@@ -65,39 +65,6 @@ public class App
         }
     }
 
-    public void printCountries(){
-        try
-        {
-            // Create an SQL statement
-            Statement stmt = con.createStatement();
-            // Create string for SQL statement
-
-//            String strSelect =
-//                    "SELECT emp_no, first_name, last_name "
-//                            + "FROM employees "
-//                            + "WHERE emp_no = " + ID;
-
-            String strSelect =
-                    "SELECT * FROM country";
-            // Execute SQL statement
-            ResultSet rset = stmt.executeQuery(strSelect);
-            // Return new employee if valid.
-            // Check one is returned
-            if (rset.next())
-            {
-                System.out.println(rset.getInt("population") + " " + rset.getString("name"));
-
-            }
-
-        }
-        catch (Exception e)
-        {
-            System.out.println(e.getMessage());
-            System.out.println("Failed to get population details");
-
-        }
-    }
-
     public Country getCountryByName(String name){
         try
         {
@@ -551,7 +518,10 @@ public class App
     }
 
     public void printCountryReport(ArrayList<Country> countries){
-        //apply unit test to this function
+        if(countries == null || countries.size() <= 0){
+            System.out.println("List Empty");
+            return;
+        }
         //generates a report from the passed in country list
         //print a line for each object in the array
         //formats the results to look like a table
@@ -821,6 +791,11 @@ public class App
     public void printCityReport(ArrayList<City> cities){
         //print a formatted table based on the passed in array of city objects
         //apply unit test to this function
+        if(cities == null || cities.size() <= 0){
+            System.out.println("List Empty");
+            return;
+        }
+
         String header = String.format(
                 "%-50s %-50s %-50s %-10s",
                 "Name",
@@ -939,6 +914,11 @@ public class App
     public void printCapitalCityReport(ArrayList<City> cities){
         //print a formatted table based on the passed in array of city objects
         //apply unit test to this function
+        if(cities == null || cities.size() <= 0){
+            System.out.println("List Empty");
+            return;
+        }
+
         String header = String.format(
                 "%-50s %-50s %-10s",
                 "Name",
@@ -1219,6 +1199,11 @@ public class App
         long population;
         //use getCountryByName function
         Country c = getCountryByName(country);
+
+        if(c == null){
+            //return negative integer to indicate none was found
+            return -1;
+        }
         //print the population and return the
         return c.getPopulation();
     }
@@ -1254,6 +1239,11 @@ public class App
     public long getCityPopulation(String cityName){
         //use get city by name function
         City city = getCityByName(cityName);
+
+        if(city == null){
+            //return negative integer to indicate none was found
+            return -1;
+        }
         return city.getPopulation();
     }
 
@@ -1339,11 +1329,11 @@ public class App
         ArrayList<Country> c = a.getCountriesInRegion("Eastern Asia",3);
         //a.printCountryReport(c);
 
-        ArrayList<City> cities = a.getAllCapitalCitiesInRegion("Central America");
+        ArrayList<City> cities = a.getCities(10);
         City cit = a.getCityByName("Belmopan");
 //        a.printCapitalCityReport(cities);
 
-        a.countryPopulationReport("Belize");
+        a.printCityReport(cities);
 
         a.generateLanguageReport();
 
