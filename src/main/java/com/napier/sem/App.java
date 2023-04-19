@@ -271,8 +271,7 @@ public class App
         }
     }
 
-    public void printCountryRecord(Country country)
-    {
+    public void printCountryRecord(Country country){
         if (country != null)
         {
             //get city form id and extract the name
@@ -296,8 +295,7 @@ public class App
             System.out.println(countryRow);
         }
     }
-    public void printCityRecord(City city)
-    {
+    public void printCityRecord(City city){
         if (city != null)
         {
             //get country by code and extract the name
@@ -321,8 +319,7 @@ public class App
         }
     }
 
-    public void printCapitalCityRecord(City city)
-    {
+    public void printCapitalCityRecord(City city){
         if (city != null)
         {
             //get country by code and extract the name
