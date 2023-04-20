@@ -12,7 +12,7 @@ public class AppIntegrationTest
 {
     static App app;
 //
-//    @BeforeAll
+    @BeforeAll
     static void init()
     {
         app = new App();
