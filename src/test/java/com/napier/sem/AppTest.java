@@ -287,6 +287,7 @@ public class AppTest
     void testGetLanguagePopulation(){
         //valid
         app.getLanguagePopulation("English");
+        app.generateLanguageReport();
 
         //not in database
         app.getLanguagePopulation("notfound");
