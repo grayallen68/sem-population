@@ -1,9 +1,9 @@
-name: A workflow for my Hello World App
+name: A workflow for my Population App
 on:
   push:
     branches:
       - master
-      - lab08
+      - develop
 jobs:
   UnitTests:
     name: Unit Tests
