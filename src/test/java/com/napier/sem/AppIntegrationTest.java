@@ -115,7 +115,7 @@ public class AppIntegrationTest
 //    }
 //
 //    //TESTING FUNCTIONS THAT RETURN A LIST OF CITIES (CAPITALS)
-//    @Test
+    @Test
     void getCapCityListTest(){
         //negative count
         app.getCapitalCities(-10);
