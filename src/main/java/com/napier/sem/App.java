@@ -84,8 +84,6 @@ public class App
             // Check one is returned
             if (rset.next())
             {
-
-                Country country = new Country();
                 String countryCode = rset.getString("country.code");
                 String countryName = rset.getString("country.name");
                 String continent = rset.getString("country.continent");
@@ -93,12 +91,7 @@ public class App
                 int population = rset.getInt("country.population");
                 int capitalID = rset.getInt("country.capital");
 
-                country.setCode(countryCode);
-                country.setName(countryName);
-                country.setContinent(continent);
-                country.setRegion(region);
-                country.setPopulation(population);
-                country.setCapital(capitalID);
+                Country country = new Country(countryCode, countryName, continent, region, population, capitalID);
 
                 return country;
             }
@@ -132,7 +125,7 @@ public class App
             if (rset.next())
             {
 
-                Country country = new Country();
+
                 String countryCode = rset.getString("country.code");
                 String countryName = rset.getString("country.name");
                 String continent = rset.getString("country.continent");
@@ -140,12 +133,7 @@ public class App
                 int population = rset.getInt("country.population");
                 int capitalID = rset.getInt("country.capital");
 
-                country.setCode(countryCode);
-                country.setName(countryName);
-                country.setContinent(continent);
-                country.setRegion(region);
-                country.setPopulation(population);
-                country.setCapital(capitalID);
+                Country country = new Country(countryCode, countryName, continent, region, population, capitalID);
 
                 return country;
             }
@@ -173,18 +161,14 @@ public class App
             // Check one is returned
             if (rset.next())
             {
-                City city = new City();
+
                 int id = rset.getInt("city.id");
                 String name = rset.getString("city.name");
                 String countryCode = rset.getString("city.countrycode");
                 String district = rset.getString("city.district");
                 long population = rset.getLong("city.population");
 
-                city.setID(id);
-                city.setName(name);
-                city.setCountryCode(countryCode);
-                city.setDistrict(district);
-                city.setPopulation(population);
+                City city = new City(id, name, countryCode, district, population);
 
                 return city;
             }
@@ -212,18 +196,14 @@ public class App
             // Check one is returned
             if (rset.next())
             {
-                City city = new City();
+
                 int id = rset.getInt("city.id");
                 String name = rset.getString("city.name");
                 String countryCode = rset.getString("city.countrycode");
                 String district = rset.getString("city.district");
                 long population = rset.getLong("city.population");
 
-                city.setID(id);
-                city.setName(name);
-                city.setCountryCode(countryCode);
-                city.setDistrict(district);
-                city.setPopulation(population);
+                City city = new City(id, name, countryCode, district, population);
 
                 return city;
             }
@@ -1326,7 +1306,7 @@ public class App
             a.connect(args[0], Integer.parseInt(args[1]));
         }
 
-        ArrayList<Country> c = a.getCountriesInRegion("Eastern Asia",3);
+        ArrayList<Country> c = a.getCountries(10);
         //a.printCountryReport(c);
 
         ArrayList<City> cities = a.getCities(10);

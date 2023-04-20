@@ -10,6 +10,14 @@ public class City {
     private String district;
     private long population;
 
+    public City(int id, String name, String countryCode, String district, long population){
+        this.ID = id;
+        this.name = name;
+        this.countryCode = countryCode;
+        this.district = district;
+        this.population = population;
+    }
+
     public void setID(int ID) {
         this.ID = ID;
     }

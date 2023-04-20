@@ -8,8 +8,18 @@ public class Country {
     private String name;
     private String continent;
     private String region;
-    private int population;
+    private long population;
     private int capitalID; //foreign key from city table
+
+    //construstor
+    public Country(String code, String name, String continent, String region, long population, int capitalID){
+        this.code = code;
+        this.name = name;
+        this.continent = continent;
+        this.region = region;
+        this.population = population;
+        this.capitalID = capitalID;
+    }
 
     public String getCode(){
         return code;
@@ -38,7 +48,7 @@ public class Country {
         this.region = region;
     }
 
-   public int getPopulation(){
+   public long getPopulation(){
         return population;
    }
    public void setPopulation(int population){
