@@ -42,6 +42,12 @@ public class AppIntegrationTest
         System.out.println("TEST STARTED");
         //negative value, not in db
         app.getCityByID(-2);
+
+        //null
+        app.getCityByName(null);
+
+        //not in db
+        app.getCityByName("nonexistent");
     }
 
     //TESTING FUNCTIONS THAT RETURN A LIST OF COUNTRIES

@@ -427,6 +427,10 @@ public class App
 
     public ArrayList<Country> getCountriesInContinent(String continent,int count){
         //limit the results of the query based on the count
+        if(continent == null){
+            return null;
+        }
+
         if(count < 0)
             count = 0;
         try{
@@ -462,6 +466,11 @@ public class App
     }
 
     public ArrayList<Country> getCountriesInRegion(String region, int count){
+
+        if(region == null){
+            return null;
+        }
+
         //limit the results of the query based on the count
         if(count < 0)
             count = 0;
@@ -569,6 +578,9 @@ public class App
         //limit the results of the query based on the count
         //select countries that match the countrycode of the object
         //then filter the results based on the country's continent field
+        if(continent == null){
+            return null;
+        }
 
         if(count < 0)
             count = 0;
@@ -615,6 +627,9 @@ public class App
         //limit the results of the query based on the count
         //select countries that match the countrycode of the object
         //then filter the results based on the country's region field
+        if(region == null){
+            return null;
+        }
 
         if(count < 0)
             count = 0;
@@ -661,6 +676,9 @@ public class App
         //limit the results of the query based on the count
         //select countries that match the countrycode of the object
         //then filter the results based on the country's name field
+        if(countryName == null){
+            return null;
+        }
 
         if(count < 0)
             count = 0;
@@ -706,6 +724,10 @@ public class App
         //limit the results of the query based on the count
         //select countries that match the countrycode of the object
         //then filter the results based on the city's district field
+
+        if(district == null){
+            return null;
+        }
 
         if(count < 0)
             count = 0;
