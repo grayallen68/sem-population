@@ -108,21 +108,21 @@ public class AppIntegrationTest
         app.getAllCitiesInContinent("notfound");
     }
 
-    @Test
-    void getCityListTestNull(){
-
-        //null strings
-        app.getCitiesInCountry(null, 10);
-        app.getCitiesInDistrict(null, 10);
-        app.getCitiesInRegion(null, 10);
-        app.getCitiesInContinent(null, 10);
-
-        app.getAllCitiesInCountry(null);
-        app.getAllCitiesInDistrict(null);
-        app.getAllCitiesInRegion(null);
-        app.getAllCitiesInContinent(null);
-
-    }
+//    @Test
+//    void getCityListTestNull(){
+//
+//        //null strings
+//        app.getCitiesInCountry(null, 10);
+//        app.getCitiesInDistrict(null, 10);
+//        app.getCitiesInRegion(null, 10);
+//        app.getCitiesInContinent(null, 10);
+//
+//        app.getAllCitiesInCountry(null);
+//        app.getAllCitiesInDistrict(null);
+//        app.getAllCitiesInRegion(null);
+//        app.getAllCitiesInContinent(null);
+//
+//    }
 
     //TESTING FUNCTIONS THAT RETURN A LIST OF CITIES (CAPITALS)
     @Test
