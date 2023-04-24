@@ -74,45 +74,55 @@ public class AppIntegrationTest
 
     //TESTING FUNCTIONS THAT RETURN A LIST OF CITIES
     //these functions are passed strings and integer(counts) that affect the query
-//    @Test
-//    void getCityListTest(){
-//        //negative count
-//        app.getCities(-10);
-//        app.getCitiesInCountry("China", -10);
-//        app.getCitiesInDistrict("New York", -10);
-//        app.getCitiesInRegion("Central America", -10);
-//        app.getCitiesInContinent("Asia", -10);
-//
-//        //count greater than database cities count
-//        app.getCities(100000);
-//        app.getCitiesInCountry("China", 100000);
-//        app.getCitiesInDistrict("New York", 100000);
-//        app.getCitiesInRegion("Central America", 100000);
-//        app.getCitiesInContinent("Asia", 100000);
-//
-//        //passed in region, continent, country or district not in databse
-//        app.getCitiesInCountry("notfound", 10);
-//        app.getCitiesInDistrict("notfound", 10);
-//        app.getCitiesInRegion("notfound", 10);
-//        app.getCitiesInContinent("notfound", 10);
-//
-//        app.getAllCitiesInCountry("notfound");
-//        app.getAllCitiesInDistrict("notfound");
-//        app.getAllCitiesInRegion("notfound");
-//        app.getAllCitiesInContinent("notfound");
-//
-//        //null strings
-//        app.getCitiesInCountry(null, 10);
-//        app.getCitiesInDistrict(null, 10);
-//        app.getCitiesInRegion(null, 10);
-//        app.getCitiesInContinent(null, 10);
-//
-//        app.getAllCitiesInCountry(null);
-//        app.getAllCitiesInDistrict(null);
-//        app.getAllCitiesInRegion(null);
-//        app.getAllCitiesInContinent(null);
-//
-//    }
+    @Test
+    void getCityListTestNegative(){
+        //negative count
+        app.getCities(-10);
+        app.getCitiesInCountry("China", -10);
+        app.getCitiesInDistrict("New York", -10);
+        app.getCitiesInRegion("Central America", -10);
+        app.getCitiesInContinent("Asia", -10);
+    }
+
+    @Test
+    void getCityListTestLargeCount(){
+        //count greater than database cities count
+        app.getCities(100000);
+        app.getCitiesInCountry("China", 100000);
+        app.getCitiesInDistrict("New York", 100000);
+        app.getCitiesInRegion("Central America", 100000);
+        app.getCitiesInContinent("Asia", 100000);
+    }
+
+    @Test
+    void getCityListTestNotFound(){
+        //passed in region, continent, country or district not in databse
+        app.getCitiesInCountry("notfound", 10);
+        app.getCitiesInDistrict("notfound", 10);
+        app.getCitiesInRegion("notfound", 10);
+        app.getCitiesInContinent("notfound", 10);
+
+        app.getAllCitiesInCountry("notfound");
+        app.getAllCitiesInDistrict("notfound");
+        app.getAllCitiesInRegion("notfound");
+        app.getAllCitiesInContinent("notfound");
+    }
+
+    @Test
+    void getCityListTestNull(){
+
+        //null strings
+        app.getCitiesInCountry(null, 10);
+        app.getCitiesInDistrict(null, 10);
+        app.getCitiesInRegion(null, 10);
+        app.getCitiesInContinent(null, 10);
+
+        app.getAllCitiesInCountry(null);
+        app.getAllCitiesInDistrict(null);
+        app.getAllCitiesInRegion(null);
+        app.getAllCitiesInContinent(null);
+
+    }
 
     //TESTING FUNCTIONS THAT RETURN A LIST OF CITIES (CAPITALS)
     @Test
