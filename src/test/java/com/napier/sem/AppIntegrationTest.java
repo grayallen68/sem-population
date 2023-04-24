@@ -26,6 +26,7 @@ public class AppIntegrationTest
 
     @Test
     void getCountryTests(){
+        System.out.println("TEST STARTED");
         //null
         app.getCountryByName(null);
         app.getCountryByCode(null);
@@ -38,6 +39,7 @@ public class AppIntegrationTest
 
     @Test
     void getCityTests(){
+        System.out.println("TEST STARTED");
         //negative value, not in db
         app.getCityByID(-2);
     }
@@ -46,6 +48,7 @@ public class AppIntegrationTest
     //these functions are passed strings and integer(counts) that affect the query
     @Test
     void getCountryListTest(){
+        System.out.println("TEST STARTED");
         //negative count
         app.getCountries(-20);
         app.getCountriesInContinent("Asia", -20);
@@ -76,6 +79,7 @@ public class AppIntegrationTest
     //these functions are passed strings and integer(counts) that affect the query
     @Test
     void getCityListTestNegative(){
+        System.out.println("TEST STARTED");
         //negative count
         app.getCities(-10);
         app.getCitiesInCountry("China", -10);
@@ -86,6 +90,7 @@ public class AppIntegrationTest
 
     @Test
     void getCityListTestLargeCount(){
+        System.out.println("TEST STARTED");
         //count greater than database cities count
         app.getCities(100000);
         app.getCitiesInCountry("China", 100000);
@@ -96,6 +101,7 @@ public class AppIntegrationTest
 
     @Test
     void getCityListTestNotFound(){
+        System.out.println("TEST STARTED");
         //passed in region, continent, country or district not in databse
         app.getCitiesInCountry("notfound", 10);
         app.getCitiesInDistrict("notfound", 10);
@@ -108,25 +114,27 @@ public class AppIntegrationTest
         app.getAllCitiesInContinent("notfound");
     }
 
-//    @Test
-//    void getCityListTestNull(){
-//
-//        //null strings
-//        app.getCitiesInCountry(null, 10);
-//        app.getCitiesInDistrict(null, 10);
-//        app.getCitiesInRegion(null, 10);
-//        app.getCitiesInContinent(null, 10);
-//
-//        app.getAllCitiesInCountry(null);
-//        app.getAllCitiesInDistrict(null);
-//        app.getAllCitiesInRegion(null);
-//        app.getAllCitiesInContinent(null);
-//
-//    }
+    @Test
+    void getCityListTestNull(){
+        System.out.println("TEST STARTED");
+
+        //null strings
+        app.getCitiesInCountry(null, 10);
+        app.getCitiesInDistrict(null, 10);
+        app.getCitiesInRegion(null, 10);
+        app.getCitiesInContinent(null, 10);
+
+        app.getAllCitiesInCountry(null);
+        app.getAllCitiesInDistrict(null);
+        app.getAllCitiesInRegion(null);
+        app.getAllCitiesInContinent(null);
+
+    }
 
     //TESTING FUNCTIONS THAT RETURN A LIST OF CITIES (CAPITALS)
     @Test
     void getCapCityListTest(){
+        System.out.println("TEST STARTED");
         //negative count
         app.getCapitalCities(-10);
         app.getCapitalCitiesInRegion("Central America", -10);
@@ -158,6 +166,7 @@ public class AppIntegrationTest
     //POPULATION REPORTS
     @Test
     void populationReportTests(){
+        System.out.println("TEST STARTED");
         //valid values
         app.continentPopulationReport("Asia");
         app.regionPopulationReport("Central America");
@@ -178,6 +187,7 @@ public class AppIntegrationTest
     //POPULATION INFORMATION REQUESTS
     @Test
     void populationInfoTests(){
+        System.out.println("TEST STARTED");
         //valid values
         app.getWorldPopulation();
         app.getContinentPopulation("Asia");
@@ -204,6 +214,7 @@ public class AppIntegrationTest
     //LANGUAGE REPORT FUNCTIONS
     @Test
     void testGetLanguagePopulation(){
+        System.out.println("TEST STARTED");
         //valid
         app.getLanguagePopulation("English");
         app.generateLanguageReport();

@@ -551,7 +551,10 @@ public class App
                 int id = rset.getInt("city.id");
                 //use the id to get city object
                 city = getCityByID(id);
-                cities.add(city);
+                if(city != null){
+                    cities.add(city);
+                }
+
             }
 
             return cities;
@@ -592,7 +595,7 @@ public class App
                 Country country = getCountryByCode(city.getCountryCode());
 
                 if(country.getContinent().equals(continent)){
-                    if(cities.size() < count) {
+                    if(cities.size() < count && city!=null) {
                         cities.add(city);
                     }
                 }
@@ -638,7 +641,7 @@ public class App
                 Country country = getCountryByCode(city.getCountryCode());
 
                 if(country.getRegion().equals(region)){
-                    if(cities.size() < count) {
+                    if(cities.size() < count && city!=null) {
                         cities.add(city);
                     }
                 }
@@ -683,7 +686,7 @@ public class App
                 //only add city if the related country matches the passed in continent
                 Country country = getCountryByCode(city.getCountryCode());
                 if(country.getName().equals(countryName)){
-                    if(cities.size() < count) {
+                    if(cities.size() < count && city != null) {
                         cities.add(city);
                     }
                 }
@@ -728,7 +731,7 @@ public class App
                 //only add city if its district matches
 
                 if(city.getDistrict().equals(district)){
-                    if(cities.size() < count) {
+                    if(cities.size() < count && city!=null) {
                         cities.add(city);
                     }
                 }
