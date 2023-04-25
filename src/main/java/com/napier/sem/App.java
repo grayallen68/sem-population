@@ -944,6 +944,10 @@ public class App
         //for each country, get its population from the country database
         //for all cities that match the country code, return a sum of their populations
         //divide the city sum by the country population to get a percentage
+        if(continent == null){
+            return;
+        }
+
         long countriesSum = 0;
         long citiesSum = 0;
         ArrayList<Country> countries = getAllCountriesInContinent(continent);
@@ -1004,6 +1008,10 @@ public class App
         //for each country, get its population from the country database
         //for all cities that match the country code, return a sum of their populations
         //divide the city sum by the country population to get a percentage
+        if(region == null){
+            return;
+        }
+
         long countriesSum = 0;
         long citiesSum = 0;
         ArrayList<Country> countries = getAllCountriesInRegion(region);
@@ -1064,6 +1072,10 @@ public class App
         //get population from the country database
         //for all cities that match the country code, return a sum of their populations
         //divide the city sum by the country population to get a percentage
+        if(countryName == null){
+            return;
+        }
+
         long countriesSum = 0;
         long citiesSum = 0;
         Country country = getCountryByName(countryName);
