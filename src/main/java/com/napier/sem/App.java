@@ -1257,6 +1257,9 @@ public class App
         //this function needs to query the countrylanguage table
         //for the specified language, get all related country codes
         //sum the population of the retrieved country codes to use in the report table
+        if(language == null){
+            return -1;
+        }
         try
         {
             // Create an SQL statement

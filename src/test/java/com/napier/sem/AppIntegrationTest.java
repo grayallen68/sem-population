@@ -202,6 +202,13 @@ public class AppIntegrationTest
         app.getDistrictPopulation("New York");
         app.getCityPopulation("New York");
 
+        //not in database
+        app.getContinentPopulation("notfound");
+        app.getRegionPopulation("notfound");
+        app.getCountryPopulation("notfound");
+        app.getDistrictPopulation("notfound");
+        app.getCityPopulation("notfound");
+
         //null strings
         app.getContinentPopulation(null);
         app.getRegionPopulation(null);
