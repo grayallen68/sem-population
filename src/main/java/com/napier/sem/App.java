@@ -1346,15 +1346,130 @@ public class App
             a.connect(args[0], Integer.parseInt(args[1]));
         }
 
-        ArrayList<Country> c = a.getCountries(10);
-        //a.printCountryReport(c);
+        //functions to run for requirements screenshots
+        //1.) All the countries in the world organised by largest population to smallest.
+//        ArrayList<Country> countries = a.getAllCountries();
+//        a.printCountryReport(countries);
 
-        ArrayList<City> cities = a.getCities(10);
-        City cit = a.getCityByName("Belmopan");
-//        a.printCapitalCityReport(cities);
+        //2.) All the countries in a continent organised by largest population to smallest.
+//        ArrayList<Country> countries = a.getAllCountriesInContinent("Asia");
+//        a.printCountryReport(countries);
 
-        a.printCityReport(cities);
+        //3.) All the countries in a region organised by largest population to smallest.
+//        ArrayList<Country> countries = a.getAllCountriesInRegion("Central America");
+//        a.printCountryReport(countries);
 
+        //4.) The top N populated countries in the world where N is provided by the user.
+//        ArrayList<Country> countries = a.getCountries(10);
+//        a.printCountryReport(countries);
+
+        //5.) The top N populated countries in a continent where N is provided by the user.
+//        ArrayList<Country> countries = a.getCountriesInContinent("North America", 10);
+//        a.printCountryReport(countries);
+
+        //6.) The top N populated countries in a region where N is provided by the user.
+//        ArrayList<Country> countries = a.getCountriesInRegion("Central America", 10);
+//        a.printCountryReport(countries);
+
+        //7.) All the cities in the world organised by largest population to smallest.
+//        ArrayList<City> cities = a.getAllCities();
+//        a.printCityReport(cities);
+
+        //8.) All the cities in a continent organised by largest population to smallest.
+//        ArrayList<City> cities = a.getAllCitiesInContinent("Asia");
+//        a.printCityReport(cities);
+
+        //9.) All the cities in a continent organised by largest population to smallest.
+//        ArrayList<City> cities = a.getAllCitiesInRegion("Caribbean");
+//        a.printCityReport(cities);
+
+        //10.) All the cities in a country organised by largest population to smallest.
+//        ArrayList<City> cities = a.getAllCitiesInCountry("India");
+//        a.printCityReport(cities);
+
+        //11.) All the cities in a district organised by largest population to smallest.
+//        ArrayList<City> cities = a.getAllCitiesInDistrict("Seoul");
+//        a.printCityReport(cities);
+
+        //12.) The top N populated cities in the world where N is provided by the user.
+//        ArrayList<City> cities = a.getCities(10);
+//        a.printCityReport(cities);
+
+        //13.) The top N populated cities in a continent where N is provided by the user.
+//        ArrayList<City> cities = a.getCitiesInContinent("Europe", 10);
+//        a.printCityReport(cities);
+
+        //14.) The top N populated cities in a region where N is provided by the user.
+//        ArrayList<City> cities = a.getCitiesInRegion("Central America", 10);
+//        a.printCityReport(cities);
+
+        //15.) The top N populated cities in a country where N is provided by the user.
+//        ArrayList<City> cities = a.getCitiesInCountry("England", 10);
+//        a.printCityReport(cities);
+
+        //16.) The top N populated cities in a district where N is provided by the user.
+//        ArrayList<City> cities = a.getCitiesInDistrict("Seoul", 10);
+//        a.printCityReport(cities);
+
+        //17.) All the capital cities in the world organised by largest population to smallest.
+//        ArrayList<City> cities = a.getAllCapitalCities();
+//        a.printCityReport(cities);
+
+        //18.) All the capital cities in a continent organised by largest population to smallest.
+//        ArrayList<City> cities = a.getAllCapitalCitiesInContinent("South America");
+//        a.printCityReport(cities);
+
+        //19.) All the capital cities in a region organised by largest to smallest.
+//        ArrayList<City> cities = a.getAllCapitalCitiesInRegion("Caribbean");
+//        a.printCityReport(cities);
+
+        //20.) The top N populated capital cities in the world where N is provided by the user.
+//        ArrayList<City> cities = a.getCapitalCities(10);
+//        a.printCityReport(cities);
+
+        //21.) The top N populated capital cities in a continent where N is provided by the user.
+//        ArrayList<City> cities = a.getCapitalCitiesInContinent("Asia", 10);
+//        a.printCityReport(cities);
+
+        //22.) The top N populated capital cities in a region where N is provided by the user.
+//        ArrayList<City> cities = a.getCapitalCitiesInRegion("Eastern Asia", 10);
+//        a.printCityReport(cities);
+
+        //23.) The population of people, people living in cities, and people not living in cities in each continent.
+//        a.continentPopulationReport("Asia");
+
+        //24.) The population of people, people living in cities, and people not living in cities in each region.
+//        a.regionPopulationReport("Central America");
+
+        //25.) The population of people, people living in cities, and people not living in cities in each region.
+//        a.countryPopulationReport("England");
+
+
+        //26.) The population of the world.
+//        long population = a.getWorldPopulation();
+//        System.out.println(population);
+
+        //27.) The population of a continent.
+//        long population = a.getContinentPopulation("Asia");
+//        System.out.println(population);
+
+        //28.) The population of a region.
+//        long population = a.getRegionPopulation("Central America");
+//        System.out.println(population);
+
+        //29.) The population of a country.
+//        long population = a.getCountryPopulation("Belize");
+//        System.out.println(population);
+
+        //30.) The population of a district.
+//        long population = a.getDistrictPopulation("Seoul");
+//        System.out.println(population);
+
+        //31.) The population of a district.
+//        long population = a.getCityPopulation("New York");
+//        System.out.println(population);
+
+        //32.) The population of a district.
         a.generateLanguageReport();
 
         // Disconnect from database
