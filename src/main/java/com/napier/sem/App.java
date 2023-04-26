@@ -1404,7 +1404,7 @@ public class App
 //        a.printCityReport(cities);
 
         //15.) The top N populated cities in a country where N is provided by the user.
-//        ArrayList<City> cities = a.getCitiesInCountry("England", 10);
+//        ArrayList<City> cities = a.getCitiesInCountry("India", 10);
 //        a.printCityReport(cities);
 
         //16.) The top N populated cities in a district where N is provided by the user.
@@ -1413,27 +1413,27 @@ public class App
 
         //17.) All the capital cities in the world organised by largest population to smallest.
 //        ArrayList<City> cities = a.getAllCapitalCities();
-//        a.printCityReport(cities);
+//        a.printCapitalCityReport(cities);
 
         //18.) All the capital cities in a continent organised by largest population to smallest.
 //        ArrayList<City> cities = a.getAllCapitalCitiesInContinent("South America");
-//        a.printCityReport(cities);
+//        a.printCapitalCityReport(cities);
 
         //19.) All the capital cities in a region organised by largest to smallest.
 //        ArrayList<City> cities = a.getAllCapitalCitiesInRegion("Caribbean");
-//        a.printCityReport(cities);
+//        a.printCapitalCityReport(cities);
 
         //20.) The top N populated capital cities in the world where N is provided by the user.
 //        ArrayList<City> cities = a.getCapitalCities(10);
-//        a.printCityReport(cities);
+//        a.printCapitalCityReport(cities);
 
         //21.) The top N populated capital cities in a continent where N is provided by the user.
 //        ArrayList<City> cities = a.getCapitalCitiesInContinent("Asia", 10);
-//        a.printCityReport(cities);
+//        a.printCapitalCityReport(cities);
 
         //22.) The top N populated capital cities in a region where N is provided by the user.
 //        ArrayList<City> cities = a.getCapitalCitiesInRegion("Eastern Asia", 10);
-//        a.printCityReport(cities);
+//        a.printCapitalCityReport(cities);
 
         //23.) The population of people, people living in cities, and people not living in cities in each continent.
 //        a.continentPopulationReport("Asia");
@@ -1441,8 +1441,8 @@ public class App
         //24.) The population of people, people living in cities, and people not living in cities in each region.
 //        a.regionPopulationReport("Central America");
 
-        //25.) The population of people, people living in cities, and people not living in cities in each region.
-//        a.countryPopulationReport("England");
+        //25.) The population of people, people living in cities, and people not living in cities in each country.
+//        a.countryPopulationReport("India");
 
 
         //26.) The population of the world.
